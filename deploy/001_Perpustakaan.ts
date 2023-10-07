@@ -10,6 +10,8 @@ const func: DeployFunction = async ({
     const accounts = await ethers.getSigners();
 
     const deployer = accounts[0];
+    console.log("deployer address", deployer.address);
+
     
     // Deploy Perpustakaan dengan alamat admin diatur ke alamat 0
     const Perpustakaan = await deploy('Perpustakaan', {
@@ -22,10 +24,10 @@ const func: DeployFunction = async ({
     
 
     // Setel alamat admin dalam kontrak yang telah dideploy menjadi alamat 0
-    const perpustakaanInstance = await ethers.getContractAt("Perpustakaan", Perpustakaan.address);
+    const perpustakaanInstance = await ethers.getContractAt("Perpustakaan", deployer.address);
     await perpustakaanInstance.setAdmin(accounts[0].address);
 
-    console.log("Perpustakaan dideploy ke alamat:", Perpustakaan.address);
+    console.log("Perpustakaan dideploy ke alamat:", deployer.address);
   };
 
 func.tags = ['Perpustakaan'];
